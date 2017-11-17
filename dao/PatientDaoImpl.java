@@ -72,56 +72,56 @@ public class PatientDaoImpl implements PatientDao {
 	@Override
 	public Collection<PatientDto> getAll() {
 		// Set response content type
-				Collection<PatientDto> result = new ArrayList<>();
-				Statement stmt = null;
-				Connection conn = null;
-				
-				try {
+		Collection<PatientDto> result = new ArrayList<>();
+		Statement stmt = null;
+		Connection conn = null;
 
-					// Open a connection
-					conn = DbConnection.getConnection();
+		try {
 
-					// Execute SQL query
-					stmt = conn.createStatement();
-					String sql;
-					sql = "SELECT idp, pname, surname FROM patient";
-					ResultSet rs = stmt.executeQuery(sql);
+			// Open a connection
+			conn = DbConnection.getConnection();
 
-					// Extract data from result set
-					while (rs.next()) {
-						PatientDto patient = new PatientDto();
-						// Retrieve by column name
-						patient.setId(rs.getInt("idp"));
-						patient.setName(rs.getString("pname"));
-						patient.setSurname(rs.getString("surname"));
-						result.add(patient);
-					}
+			// Execute SQL query
+			stmt = conn.createStatement();
+			String sql;
+			sql = "SELECT idp, pname, surname FROM patient";
+			ResultSet rs = stmt.executeQuery(sql);
 
-					// Clean-up environment
-					rs.close();
+			// Extract data from result set
+			while (rs.next()) {
+				PatientDto patient = new PatientDto();
+				// Retrieve by column name
+				patient.setId(rs.getInt("idp"));
+				patient.setName(rs.getString("pname"));
+				patient.setSurname(rs.getString("surname"));
+				result.add(patient);
+			}
+
+			// Clean-up environment
+			rs.close();
+			stmt.close();
+			DbConnection.closeConnection(conn);
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (stmt != null)
 					stmt.close();
-					DbConnection.closeConnection(conn);
-				} catch (SQLException se) {
-					// Handle errors for JDBC
-					se.printStackTrace();
-				} catch (Exception e) {
-					// Handle errors for Class.forName
-					e.printStackTrace();
-				} finally {
-					 // finally block used to close resources
-					try {
-						if (stmt != null)
-							stmt.close();
-					} catch (SQLException se2) {
-					} // nothing we can do
-					try {
-						if (conn != null)
-							conn.close();
-					} catch (SQLException se) {
-						se.printStackTrace();
-					} // end finally try
-				} // end try
-				return result;
+			} catch (SQLException se2) {
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
+		return result;
 	}
 
 	@Override
@@ -138,7 +138,45 @@ public class PatientDaoImpl implements PatientDao {
 
 	@Override
 	public void create(PatientDto patient) {
-		// TODO Auto-generated method stub
+		// Set response content type
+		PreparedStatement pstm = null;
+		Connection conn = null;
+
+		try {
+
+			// Open a connection
+			conn = DbConnection.getConnection();
+
+			String sql = "INSERT INTO patient (pname, surname) VALUES (?, ?)";
+			pstm = conn.prepareStatement(sql);
+
+			pstm.setString(1, patient.getName());
+			pstm.setString(2, patient.getSurname());
+			pstm.executeUpdate();
+
+			// Clean-up environment
+			pstm.close();
+			DbConnection.closeConnection(conn);
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (pstm != null)
+					pstm.close();
+			} catch (SQLException se2) {
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
 
 	}
 
