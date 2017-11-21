@@ -8,9 +8,8 @@ import dao.interf.DoctorDao;
 import dto.DoctorDto;
 import tables.Tables;
 
-public class Doctor {
-
-	public void getDoctors() {
+public class Visits {
+	public void getVisits() {
 		DoctorDao doctorDao = new DoctorDaoImpl();
 		Collection<DoctorDto> doctorDtoCol = doctorDao.getAll();
 		Tables.printDoctorHeader();

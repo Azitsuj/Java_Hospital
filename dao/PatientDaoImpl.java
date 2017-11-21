@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import dao.interf.PatientDao;
 import dto.PatientDto;
 import util.db.DbConnection;
 
@@ -26,7 +27,7 @@ public class PatientDaoImpl implements PatientDao {
 			conn = DbConnection.getConnection();
 
 			// Execute SQL query
-			String sql = "SELECT idp, pname, surname FROM patient WHERE idp = ?";
+			String sql = "SELECT idp, pname, psurname FROM patient WHERE idp = ?";
 			pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, id);
 
@@ -38,7 +39,7 @@ public class PatientDaoImpl implements PatientDao {
 				// Retrieve by column name
 				patient.setId(rs.getInt("idp"));
 				patient.setName(rs.getString("pname"));
-				patient.setSurname(rs.getString("surname"));
+				patient.setSurname(rs.getString("psurname"));
 			}
 
 			// Clean-up environment
@@ -84,7 +85,7 @@ public class PatientDaoImpl implements PatientDao {
 			// Execute SQL query
 			stmt = conn.createStatement();
 			String sql;
-			sql = "SELECT idp, pname, surname FROM patient";
+			sql = "SELECT idp, pname, psurname FROM patient";
 			ResultSet rs = stmt.executeQuery(sql);
 
 			// Extract data from result set
@@ -93,7 +94,7 @@ public class PatientDaoImpl implements PatientDao {
 				// Retrieve by column name
 				patient.setId(rs.getInt("idp"));
 				patient.setName(rs.getString("pname"));
-				patient.setSurname(rs.getString("surname"));
+				patient.setSurname(rs.getString("psurname"));
 				result.add(patient);
 			}
 
@@ -179,7 +180,7 @@ public class PatientDaoImpl implements PatientDao {
 			// Open a connection
 			conn = DbConnection.getConnection();
 
-			String sql = "UPDATE patient SET pname = ?, surname = ? WHERE idp = ?";
+			String sql = "UPDATE patient SET pname = ?, psurname = ? WHERE idp = ?";
 			pstm = conn.prepareStatement(sql);
 
 			pstm.setString(1, patient.getName());
@@ -225,7 +226,7 @@ public class PatientDaoImpl implements PatientDao {
 			// Open a connection
 			conn = DbConnection.getConnection();
 
-			String sql = "INSERT INTO patient (pname, surname) VALUES (?, ?)";
+			String sql = "INSERT INTO patient (pname, psurname) VALUES (?, ?)";
 			pstm = conn.prepareStatement(sql);
 
 			pstm.setString(1, patient.getName());

@@ -8,16 +8,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import dao.interf.DoctorDao;
-import dto.DoctorDto;
+import dao.interf.DoctorScheduleDao;
+import dto.DoctorScheduleDto;
 import util.db.DbConnection;
 
-public class DoctorDaoImpl implements DoctorDao {
+public class DoctorScheduleDaoImpl implements DoctorScheduleDao {
 
 	@Override
-	public DoctorDto get(Integer id) {
+	public DoctorScheduleDto get(Integer id) {
 		// Set response content type
-		DoctorDto doctor = null;
+		DoctorScheduleDto schedule = null;
 		PreparedStatement pstm = null;
 		Connection conn = null;
 
@@ -27,7 +27,8 @@ public class DoctorDaoImpl implements DoctorDao {
 			conn = DbConnection.getConnection();
 
 			// Execute SQL query
-			String sql = "SELECT idd, dname, dsurname, specialization FROM doctor WHERE idd = ?";
+			String sql = "SELECT idds, doctor.idd, doctor.dname, doctor.dsurname, dday, dtime_start, dtime_end specialization FROM doctor_schedule NATURAL JOIN "
+					+ "doctor USING(idd) WHERE idds = ?";
 			pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, id);
 
@@ -35,12 +36,14 @@ public class DoctorDaoImpl implements DoctorDao {
 
 			// Extract data from result set
 			if (rs.next()) {
-				doctor = new DoctorDto();
+				schedule = new DoctorScheduleDto();
 				// Retrieve by column name
-				doctor.setId(rs.getInt("idd"));
-				doctor.setName(rs.getString("dname"));
-				doctor.setSurname(rs.getString("dsurname"));
-				doctor.setSpec(rs.getString("specialization"));
+				schedule.setId(rs.getInt("idds"));
+				schedule.setDay(rs.getString("dday"));
+				schedule.setStart(rs.getString("dtime_start"));
+				schedule.getDoctor().setId(rs.getInt("doctor.idd"));
+				schedule.getDoctor().setName(rs.getString("doctor.dname"));
+				schedule.getDoctor().setSurname(rs.getString("doctor.dsurname"));
 			}
 
 			// Clean-up environment
@@ -67,13 +70,13 @@ public class DoctorDaoImpl implements DoctorDao {
 				se.printStackTrace();
 			} // end finally try
 		} // end try
-		return doctor;
+		return schedule;
 	}
 
 	@Override
-	public Collection<DoctorDto> getAll() {
+	public Collection<DoctorScheduleDto> getAll() {
 		// Set response content type
-		Collection<DoctorDto> result = new ArrayList<>();
+		Collection<DoctorScheduleDto> result = new ArrayList<>();
 		Statement stmt = null;
 		Connection conn = null;
 
@@ -85,18 +88,22 @@ public class DoctorDaoImpl implements DoctorDao {
 			// Execute SQL query
 			stmt = conn.createStatement();
 			String sql;
-			sql = "SELECT idd, dname, dsurname, specialization FROM doctor";
+			sql = "SELECT idds, doctor.idd, doctor.dname, doctor.dsurname, dday, dtime_start, dtime_end FROM doctor_schedule JOIN "
+					+ "doctor USING(idd)";
 			ResultSet rs = stmt.executeQuery(sql);
 
 			// Extract data from result set
 			while (rs.next()) {
-				DoctorDto doctor = new DoctorDto();
+				DoctorScheduleDto schedule = new DoctorScheduleDto();
 				// Retrieve by column name
-				doctor.setId(rs.getInt("idd"));
-				doctor.setName(rs.getString("dname"));
-				doctor.setSurname(rs.getString("dsurname"));
-				doctor.setSpec(rs.getString("specialization"));
-				result.add(doctor);
+				schedule.setId(rs.getInt("idds"));
+				schedule.setDay(rs.getString("dday"));
+				schedule.setStart(rs.getString("dtime_start"));
+				schedule.setEnd(rs.getString("dtime_end"));
+				schedule.getDoctor().setId(rs.getInt("doctor.idd"));
+				schedule.getDoctor().setName(rs.getString("doctor.dname"));
+				schedule.getDoctor().setSurname(rs.getString("doctor.dsurname"));
+				result.add(schedule);
 			}
 
 			// Clean-up environment
@@ -128,6 +135,7 @@ public class DoctorDaoImpl implements DoctorDao {
 
 	@Override
 	public void delete(Integer id) {
+		// Set response content type
 		PreparedStatement pstm = null;
 		Connection conn = null;
 
@@ -137,12 +145,12 @@ public class DoctorDaoImpl implements DoctorDao {
 			conn = DbConnection.getConnection();
 
 			// Execute SQL query
-			String sql = "DELETE FROM doctor WHERE idd = ?";
+			String sql = "DELETE FROM doctor_schedule WHERE idds = ?";
 			pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, id);
 
 			pstm.executeUpdate();
-			System.out.println("Usun¹³êœ lekarza o numerze id: " + id);
+			System.out.println("Usun¹³êœ dy¿ur o numerze id: " + id);
 			// Clean-up environment
 			// rs.close();
 			pstm.close();
@@ -171,7 +179,7 @@ public class DoctorDaoImpl implements DoctorDao {
 	}
 
 	@Override
-	public void update(DoctorDto doctor) {
+	public void update(DoctorScheduleDto schedule) {
 		// Set response content type
 		PreparedStatement pstm = null;
 		Connection conn = null;
@@ -181,17 +189,19 @@ public class DoctorDaoImpl implements DoctorDao {
 			// Open a connection
 			conn = DbConnection.getConnection();
 
-			String sql = "UPDATE doctor SET dname = ?, dsurname = ?, specialization = ? WHERE idd = ?";
+			String sql = "UPDATE doctor_schedule SET idd = ?, dday = ?, dtime_start = ?, dtime_end = ? WHERE idds = ?";
 			pstm = conn.prepareStatement(sql);
 
-			pstm.setString(1, doctor.getName());
-			pstm.setString(2, doctor.getSurname());
-			pstm.setString(3, doctor.getSpec());
-			pstm.setInt(4, doctor.getId());
+			pstm.setInt(1, schedule.getDoctor().getId());
+			pstm.setString(2, schedule.getDay());
+			pstm.setString(3, schedule.getStart());
+			pstm.setString(4, schedule.getEnd());
+			pstm.setInt(5, schedule.getId());
 
 			pstm.executeUpdate();
-			System.out.println("Dane lekarza po aktualizacji, id: " + doctor.getId() + ", imiê: " + doctor.getName() + ", nazwisko: " + doctor.getSurname()
-					+ ", specjalizacja: " + doctor.getSpec());
+			System.out.println("Dane dy¿uru po aktualizacji, id: " + schedule.getId() + ", imiê lekarza: " + schedule.getDoctor().getName()
+					+ ", nazwisko lekarza: " + schedule.getDoctor().getSurname() + ", dnia: " + schedule.getDay() + ", pocz¹tek: " + schedule.getStart()
+					+ ", koniec: " + schedule.getEnd());
 			// Clean-up environment
 			pstm.close();
 			DbConnection.closeConnection(conn);
@@ -219,7 +229,7 @@ public class DoctorDaoImpl implements DoctorDao {
 	}
 
 	@Override
-	public void create(DoctorDto doctor) {
+	public void create(DoctorScheduleDto schedule) {
 		// Set response content type
 		PreparedStatement pstm = null;
 		Connection conn = null;
@@ -229,15 +239,17 @@ public class DoctorDaoImpl implements DoctorDao {
 			// Open a connection
 			conn = DbConnection.getConnection();
 
-			String sql = "INSERT INTO doctor (dname, dsurname, specialization) VALUES (?, ?, ?)";
+			String sql = "INSERT INTO doctor_schedule (idd, dday, dtime_start, dtime_end) VALUES (?, ?, ?, ?)";
 			pstm = conn.prepareStatement(sql);
 
-			pstm.setString(1, doctor.getName());
-			pstm.setString(2, doctor.getSurname());
-			pstm.setString(3, doctor.getSpec());
+			pstm.setInt(1, schedule.getDoctor().getId());
+			pstm.setString(2, schedule.getDay());
+			pstm.setString(3, schedule.getStart());
+			pstm.setString(4, schedule.getEnd());
 			pstm.executeUpdate();
-			System.out.println("Utworzono nastêpuj¹cego lekarza, imiê: " + doctor.getName() + ", nazwisko: " + doctor.getSurname()
-					+ ", specjalizacja: " + doctor.getSpec());
+			System.out.println("Utworzono nastêpuj¹cy dy¿ur, imiê lekarza: " + schedule.getDoctor().getName() + ", nazwisko lekarza: " + schedule.getDoctor().getSurname()
+					+ ", specjalizacja: " + schedule.getDoctor().getSpec() + ", dnia: " + schedule.getDay() + ", pocz¹tek: " + schedule.getStart()
+					+ ", koniec: " + schedule.getEnd());
 			// Clean-up environment
 			pstm.close();
 			DbConnection.closeConnection(conn);
@@ -265,7 +277,7 @@ public class DoctorDaoImpl implements DoctorDao {
 	}
 
 	@Override
-	public Collection<DoctorDto> search(DoctorDto doctortDto) {
+	public Collection<DoctorScheduleDto> search(DoctorScheduleDto scheduleDto) {
 		// TODO Auto-generated method stub
 		return null;
 	}

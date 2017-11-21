@@ -1,4 +1,4 @@
-package dao;
+package dao.interf;
 
 import java.util.Collection;
 

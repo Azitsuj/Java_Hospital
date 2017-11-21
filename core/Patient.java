@@ -3,8 +3,8 @@ package core;
 import java.util.Collection;
 import java.util.Iterator;
 
-import dao.PatientDao;
 import dao.PatientDaoImpl;
+import dao.interf.PatientDao;
 import dto.PatientDto;
 import tables.Tables;
 
