@@ -8,15 +8,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import dto.PatientDto;
+import dto.DoctorDto;
 import util.db.DbConnection;
 
-public class PatientDaoImpl implements PatientDao {
+public class DoctorDaoImpl implements DoctorDao {
 
 	@Override
-	public PatientDto get(Integer id) {
+	public DoctorDto get(Integer id) {
 		// Set response content type
-		PatientDto patient = null;
+		DoctorDto doctor = null;
 		PreparedStatement pstm = null;
 		Connection conn = null;
 
@@ -26,7 +26,7 @@ public class PatientDaoImpl implements PatientDao {
 			conn = DbConnection.getConnection();
 
 			// Execute SQL query
-			String sql = "SELECT idp, pname, surname FROM patient WHERE idp = ?";
+			String sql = "SELECT idd, dname, surname, specialization FROM doctor WHERE idd = ?";
 			pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, id);
 
@@ -34,11 +34,12 @@ public class PatientDaoImpl implements PatientDao {
 
 			// Extract data from result set
 			if (rs.next()) {
-				patient = new PatientDto();
+				doctor = new DoctorDto();
 				// Retrieve by column name
-				patient.setId(rs.getInt("idp"));
-				patient.setName(rs.getString("pname"));
-				patient.setSurname(rs.getString("surname"));
+				doctor.setId(rs.getInt("idd"));
+				doctor.setName(rs.getString("dname"));
+				doctor.setSurname(rs.getString("surname"));
+				doctor.setSpec(rs.getString("specialization"));
 			}
 
 			// Clean-up environment
@@ -65,14 +66,13 @@ public class PatientDaoImpl implements PatientDao {
 				se.printStackTrace();
 			} // end finally try
 		} // end try
-		return patient;
-
+		return doctor;
 	}
 
 	@Override
-	public Collection<PatientDto> getAll() {
+	public Collection<DoctorDto> getAll() {
 		// Set response content type
-		Collection<PatientDto> result = new ArrayList<>();
+		Collection<DoctorDto> result = new ArrayList<>();
 		Statement stmt = null;
 		Connection conn = null;
 
@@ -84,17 +84,18 @@ public class PatientDaoImpl implements PatientDao {
 			// Execute SQL query
 			stmt = conn.createStatement();
 			String sql;
-			sql = "SELECT idp, pname, surname FROM patient";
+			sql = "SELECT idd, dname, surname, specialization FROM doctor";
 			ResultSet rs = stmt.executeQuery(sql);
 
 			// Extract data from result set
 			while (rs.next()) {
-				PatientDto patient = new PatientDto();
+				DoctorDto doctor = new DoctorDto();
 				// Retrieve by column name
-				patient.setId(rs.getInt("idp"));
-				patient.setName(rs.getString("pname"));
-				patient.setSurname(rs.getString("surname"));
-				result.add(patient);
+				doctor.setId(rs.getInt("idd"));
+				doctor.setName(rs.getString("dname"));
+				doctor.setSurname(rs.getString("surname"));
+				doctor.setSpec(rs.getString("specialization"));
+				result.add(doctor);
 			}
 
 			// Clean-up environment
@@ -135,12 +136,12 @@ public class PatientDaoImpl implements PatientDao {
 			conn = DbConnection.getConnection();
 
 			// Execute SQL query
-			String sql = "DELETE FROM patient WHERE idp = ?";
+			String sql = "DELETE FROM doctor WHERE idd = ?";
 			pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, id);
 
 			pstm.executeUpdate();
-			System.out.println("Usun¹³êœ pacjenta o numerze id: " + id);
+			System.out.println("Usun¹³êœ lekarza o numerze id: " + id);
 			// Clean-up environment
 			// rs.close();
 			pstm.close();
@@ -169,7 +170,7 @@ public class PatientDaoImpl implements PatientDao {
 	}
 
 	@Override
-	public void update(PatientDto patient) {
+	public void update(DoctorDto doctor) {
 		// Set response content type
 		PreparedStatement pstm = null;
 		Connection conn = null;
@@ -179,15 +180,17 @@ public class PatientDaoImpl implements PatientDao {
 			// Open a connection
 			conn = DbConnection.getConnection();
 
-			String sql = "UPDATE patient SET pname = ?, surname = ? WHERE idp = ?";
+			String sql = "UPDATE doctor SET dname = ?, surname = ?, specialization = ? WHERE idd = ?";
 			pstm = conn.prepareStatement(sql);
 
-			pstm.setString(1, patient.getName());
-			pstm.setString(2, patient.getSurname());
-			pstm.setInt(3, patient.getId());
+			pstm.setString(1, doctor.getName());
+			pstm.setString(2, doctor.getSurname());
+			pstm.setString(3, doctor.getSpec());
+			pstm.setInt(4, doctor.getId());
 
 			pstm.executeUpdate();
-			System.out.println("Dane pacjenta po aktualizacji, id: " + patient.getId() + ", imiê: " + patient.getName() + ", nazwisko: " + patient.getSurname());
+			System.out.println("Dane lekarza po aktualizacji, id: " + doctor.getId() + ", imiê: " + doctor.getName() + ", nazwisko: " + doctor.getSurname()
+					+ ", specjalizacja: " + doctor.getSpec());
 			// Clean-up environment
 			pstm.close();
 			DbConnection.closeConnection(conn);
@@ -215,7 +218,7 @@ public class PatientDaoImpl implements PatientDao {
 	}
 
 	@Override
-	public void create(PatientDto patient) {
+	public void create(DoctorDto doctor) {
 		// Set response content type
 		PreparedStatement pstm = null;
 		Connection conn = null;
@@ -225,13 +228,15 @@ public class PatientDaoImpl implements PatientDao {
 			// Open a connection
 			conn = DbConnection.getConnection();
 
-			String sql = "INSERT INTO patient (pname, surname) VALUES (?, ?)";
+			String sql = "INSERT INTO doctor (dname, surname, specialization) VALUES (?, ?, ?)";
 			pstm = conn.prepareStatement(sql);
 
-			pstm.setString(1, patient.getName());
-			pstm.setString(2, patient.getSurname());
+			pstm.setString(1, doctor.getName());
+			pstm.setString(2, doctor.getSurname());
+			pstm.setString(3, doctor.getSpec());
 			pstm.executeUpdate();
-			System.out.println("Utworzono nastêpuj¹cego pacjenta, imiê: " + patient.getName() + ", nazwisko: " + patient.getSurname());
+			System.out.println("Utworzono nastêpuj¹cego lekarza, imiê: " + doctor.getName() + ", nazwisko: " + doctor.getSurname()
+					+ ", specjalizacja: " + doctor.getSpec());
 			// Clean-up environment
 			pstm.close();
 			DbConnection.closeConnection(conn);
@@ -259,7 +264,7 @@ public class PatientDaoImpl implements PatientDao {
 	}
 
 	@Override
-	public Collection<PatientDto> search(PatientDto patientDto) {
+	public Collection<DoctorDto> search(DoctorDto doctortDto) {
 		// TODO Auto-generated method stub
 		return null;
 	}
