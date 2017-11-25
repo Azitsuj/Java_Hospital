@@ -3,7 +3,6 @@ package dto;
 public class VisitsDto {
 
 	private Integer id;
-	private String day;
 	private String visit_start;
 	private String visit_end;
 
@@ -16,14 +15,6 @@ public class VisitsDto {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getDay() {
-		return day;
-	}
-
-	public void setDay(String day) {
-		this.day = day;
 	}
 
 	public String getVisit_start() {
@@ -62,7 +53,6 @@ public class VisitsDto {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((day == null) ? 0 : day.hashCode());
 		result = prime * result + ((doctor == null) ? 0 : doctor.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((patient == null) ? 0 : patient.hashCode());
@@ -80,11 +70,6 @@ public class VisitsDto {
 		if (getClass() != obj.getClass())
 			return false;
 		VisitsDto other = (VisitsDto) obj;
-		if (day == null) {
-			if (other.day != null)
-				return false;
-		} else if (!day.equals(other.day))
-			return false;
 		if (doctor == null) {
 			if (other.doctor != null)
 				return false;

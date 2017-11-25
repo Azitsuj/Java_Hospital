@@ -1,6 +1,7 @@
 package dao.interf;
 
 import java.util.Collection;
+import java.util.Date;
 
 import dto.DoctorDto;
 import dto.VisitsDto;
@@ -9,13 +10,17 @@ public interface VisitsDao {
 
 	VisitsDto get(Integer id);
 
-	Collection<DoctorDto> getAll();
+	Collection<VisitsDto> getAll();
 
 	void delete(Integer id);
+	
+	void deleteSet(Integer id, Date startDateOld, Date endDateOld);
 
-	void update(DoctorDto doctor);
+	void updateBlank(VisitsDto visit, int minutes, Date startDateOld, Date endDateOld, Date startDate, Date endDate);
 
-	void create(DoctorDto doctor);
+	void createBlank(VisitsDto visit, int minutes, Date startDate, Date endDate);
+	
+	void create(VisitsDto visit);
 
-	Collection<DoctorDto> search(DoctorDto doctortDto);
+	Collection<DoctorDto> search(VisitsDto visitDto);
 }

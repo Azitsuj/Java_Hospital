@@ -27,7 +27,7 @@ public class DoctorScheduleDaoImpl implements DoctorScheduleDao {
 			conn = DbConnection.getConnection();
 
 			// Execute SQL query
-			String sql = "SELECT idds, doctor.idd, doctor.dname, doctor.dsurname, dday, dtime_start, dtime_end specialization FROM doctor_schedule NATURAL JOIN "
+			String sql = "SELECT idds, doctor.idd, doctor.dname, doctor.dsurname, dtime_start, dtime_end, doctor.specialization FROM doctor_schedule JOIN "
 					+ "doctor USING(idd) WHERE idds = ?";
 			pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, id);
@@ -39,11 +39,12 @@ public class DoctorScheduleDaoImpl implements DoctorScheduleDao {
 				schedule = new DoctorScheduleDto();
 				// Retrieve by column name
 				schedule.setId(rs.getInt("idds"));
-				schedule.setDay(rs.getString("dday"));
 				schedule.setStart(rs.getString("dtime_start"));
+				schedule.setEnd(rs.getString("dtime_end"));
 				schedule.getDoctor().setId(rs.getInt("doctor.idd"));
 				schedule.getDoctor().setName(rs.getString("doctor.dname"));
 				schedule.getDoctor().setSurname(rs.getString("doctor.dsurname"));
+				schedule.getDoctor().setSpec(rs.getString("doctor.specialization"));
 			}
 
 			// Clean-up environment
@@ -88,7 +89,7 @@ public class DoctorScheduleDaoImpl implements DoctorScheduleDao {
 			// Execute SQL query
 			stmt = conn.createStatement();
 			String sql;
-			sql = "SELECT idds, doctor.idd, doctor.dname, doctor.dsurname, dday, dtime_start, dtime_end FROM doctor_schedule JOIN "
+			sql = "SELECT idds, doctor.idd, doctor.dname, doctor.dsurname, dtime_start, dtime_end FROM doctor_schedule JOIN "
 					+ "doctor USING(idd)";
 			ResultSet rs = stmt.executeQuery(sql);
 
@@ -97,7 +98,6 @@ public class DoctorScheduleDaoImpl implements DoctorScheduleDao {
 				DoctorScheduleDto schedule = new DoctorScheduleDto();
 				// Retrieve by column name
 				schedule.setId(rs.getInt("idds"));
-				schedule.setDay(rs.getString("dday"));
 				schedule.setStart(rs.getString("dtime_start"));
 				schedule.setEnd(rs.getString("dtime_end"));
 				schedule.getDoctor().setId(rs.getInt("doctor.idd"));
@@ -189,18 +189,16 @@ public class DoctorScheduleDaoImpl implements DoctorScheduleDao {
 			// Open a connection
 			conn = DbConnection.getConnection();
 
-			String sql = "UPDATE doctor_schedule SET idd = ?, dday = ?, dtime_start = ?, dtime_end = ? WHERE idds = ?";
+			String sql = "UPDATE doctor_schedule SET idd = ?, dtime_start = ?, dtime_end = ? WHERE idds = ?";
 			pstm = conn.prepareStatement(sql);
-
 			pstm.setInt(1, schedule.getDoctor().getId());
-			pstm.setString(2, schedule.getDay());
-			pstm.setString(3, schedule.getStart());
-			pstm.setString(4, schedule.getEnd());
-			pstm.setInt(5, schedule.getId());
+			pstm.setString(2, schedule.getStart());
+			pstm.setString(3, schedule.getEnd());
+			pstm.setInt(4, schedule.getId());
 
 			pstm.executeUpdate();
 			System.out.println("Dane dy¿uru po aktualizacji, id: " + schedule.getId() + ", imiê lekarza: " + schedule.getDoctor().getName()
-					+ ", nazwisko lekarza: " + schedule.getDoctor().getSurname() + ", dnia: " + schedule.getDay() + ", pocz¹tek: " + schedule.getStart()
+					+ ", nazwisko lekarza: " + schedule.getDoctor().getSurname() + ", pocz¹tek: " + schedule.getStart()
 					+ ", koniec: " + schedule.getEnd());
 			// Clean-up environment
 			pstm.close();
@@ -239,16 +237,15 @@ public class DoctorScheduleDaoImpl implements DoctorScheduleDao {
 			// Open a connection
 			conn = DbConnection.getConnection();
 
-			String sql = "INSERT INTO doctor_schedule (idd, dday, dtime_start, dtime_end) VALUES (?, ?, ?, ?)";
+			String sql = "INSERT INTO doctor_schedule (idd, dtime_start, dtime_end) VALUES (?, ?, ?)";
 			pstm = conn.prepareStatement(sql);
 
 			pstm.setInt(1, schedule.getDoctor().getId());
-			pstm.setString(2, schedule.getDay());
-			pstm.setString(3, schedule.getStart());
-			pstm.setString(4, schedule.getEnd());
+			pstm.setString(2, schedule.getStart());
+			pstm.setString(3, schedule.getEnd());
 			pstm.executeUpdate();
 			System.out.println("Utworzono nastêpuj¹cy dy¿ur, imiê lekarza: " + schedule.getDoctor().getName() + ", nazwisko lekarza: " + schedule.getDoctor().getSurname()
-					+ ", specjalizacja: " + schedule.getDoctor().getSpec() + ", dnia: " + schedule.getDay() + ", pocz¹tek: " + schedule.getStart()
+					+ ", specjalizacja: " + schedule.getDoctor().getSpec() + ", pocz¹tek: " + schedule.getStart()
 					+ ", koniec: " + schedule.getEnd());
 			// Clean-up environment
 			pstm.close();

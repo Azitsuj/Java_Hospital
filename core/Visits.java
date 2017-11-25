@@ -9,6 +9,7 @@ import dto.DoctorDto;
 import tables.Tables;
 
 public class Visits {
+	/* TO DO
 	public void getVisits() {
 		DoctorDao doctorDao = new DoctorDaoImpl();
 		Collection<DoctorDto> doctorDtoCol = doctorDao.getAll();
@@ -40,4 +41,5 @@ public class Visits {
 		DoctorDao doctorDao = new DoctorDaoImpl();
 		doctorDao.update(doctor);
 	}
+	*/
 }

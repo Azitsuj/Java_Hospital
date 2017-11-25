@@ -27,9 +27,8 @@ create table visits (
 	idv int primary key auto_increment,
     idd int,
     idp int,
-    vday varchar(10),
-    vtime_start varchar(10),
-    vtime_end varchar(10),
+    vtime_start datetime,
+    vtime_end datetime,
     foreign key (idd) references doctor (idd),
     foreign key (idp) references patient (idp)
 );
@@ -37,12 +36,22 @@ create table visits (
 create table doctor_schedule (
 	idds int primary key auto_increment,
     idd int,
-    dday varchar(10),
-    dtime_start varchar(30),
-    dtime_end varchar(30),
+    dtime_start datetime,
+    dtime_end datetime,
     foreign key (idd) references doctor (idd)
 );
  
  
  SELECT idds, doctor.idd, doctor.dname, doctor.dsurname, dday, dtime_start, dtime_end specialization FROM doctor_schedule 
  JOIN doctor USING(idd);
+ 
+ 
+ insert into visits (idd, idp, vday, vtime_start, vtime_end) values (1, null, '2017-11-02', '2017-11-02 10:00', '2017-11-02 11:00');
+ select * from visits;
+ select * from doctor_schedule;
+ alter table doctor_schedule drop dday;
+ delete from visits;
+ SELECT idds, doctor.idd, doctor.dname, doctor.dsurname, dtime_start, dtime_end, doctor.specialization FROM 
+ doctor_schedule JOIN doctor USING (idd) WHERE idds = 15;
+ 
+ select * from visits where idd = 1 AND vtime_start >= '2017-11-05 11:20:00';

@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.FilterInputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -31,5 +32,13 @@ public class Tools {
 		File fi = new File(fileName);
 		Scanner sc = new Scanner(fi);
 		return sc;
+	}
+
+	public static Date addMinutesToDate(int minutes, Date beforeTime) {
+		final long ONE_MINUTE_IN_MILLIS = 60000;// millisecs
+
+		long curTimeInMs = beforeTime.getTime();
+		Date afterAddingMins = new Date(curTimeInMs + (minutes * ONE_MINUTE_IN_MILLIS));
+		return afterAddingMins;
 	}
 }
