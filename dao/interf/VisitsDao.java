@@ -8,11 +8,11 @@ import dto.VisitsDto;
 
 public interface VisitsDao {
 
-	VisitsDto get(Integer id);
+	Collection<VisitsDto> getPatientsVisit();
 
-	Collection<VisitsDto> getAll();
-
-	void delete(Integer id);
+	Collection<VisitsDto> getDoctorVisit(Integer id);
+	
+	void delete(Integer id, Date startDate, Date endDate);
 	
 	void deleteSet(Integer id, Date startDateOld, Date endDateOld);
 

@@ -89,8 +89,7 @@ public class DoctorScheduleDaoImpl implements DoctorScheduleDao {
 			// Execute SQL query
 			stmt = conn.createStatement();
 			String sql;
-			sql = "SELECT idds, doctor.idd, doctor.dname, doctor.dsurname, dtime_start, dtime_end FROM doctor_schedule JOIN "
-					+ "doctor USING(idd)";
+			sql = "SELECT idds, doctor.idd, doctor.dname, doctor.dsurname, dtime_start, dtime_end FROM doctor_schedule JOIN " + "doctor USING(idd)";
 			ResultSet rs = stmt.executeQuery(sql);
 
 			// Extract data from result set
@@ -198,8 +197,7 @@ public class DoctorScheduleDaoImpl implements DoctorScheduleDao {
 
 			pstm.executeUpdate();
 			System.out.println("Dane dy¿uru po aktualizacji, id: " + schedule.getId() + ", imiê lekarza: " + schedule.getDoctor().getName()
-					+ ", nazwisko lekarza: " + schedule.getDoctor().getSurname() + ", pocz¹tek: " + schedule.getStart()
-					+ ", koniec: " + schedule.getEnd());
+					+ ", nazwisko lekarza: " + schedule.getDoctor().getSurname() + ", pocz¹tek: " + schedule.getStart() + ", koniec: " + schedule.getEnd());
 			// Clean-up environment
 			pstm.close();
 			DbConnection.closeConnection(conn);
@@ -233,20 +231,17 @@ public class DoctorScheduleDaoImpl implements DoctorScheduleDao {
 		Connection conn = null;
 
 		try {
-
 			// Open a connection
 			conn = DbConnection.getConnection();
-
 			String sql = "INSERT INTO doctor_schedule (idd, dtime_start, dtime_end) VALUES (?, ?, ?)";
 			pstm = conn.prepareStatement(sql);
-
 			pstm.setInt(1, schedule.getDoctor().getId());
 			pstm.setString(2, schedule.getStart());
 			pstm.setString(3, schedule.getEnd());
 			pstm.executeUpdate();
-			System.out.println("Utworzono nastêpuj¹cy dy¿ur, imiê lekarza: " + schedule.getDoctor().getName() + ", nazwisko lekarza: " + schedule.getDoctor().getSurname()
-					+ ", specjalizacja: " + schedule.getDoctor().getSpec() + ", pocz¹tek: " + schedule.getStart()
-					+ ", koniec: " + schedule.getEnd());
+			System.out.println(
+					"Utworzono nastêpuj¹cy dy¿ur, imiê lekarza: " + schedule.getDoctor().getName() + ", nazwisko lekarza: " + schedule.getDoctor().getSurname()
+							+ ", specjalizacja: " + schedule.getDoctor().getSpec() + ", pocz¹tek: " + schedule.getStart() + ", koniec: " + schedule.getEnd());
 			// Clean-up environment
 			pstm.close();
 			DbConnection.closeConnection(conn);
@@ -277,6 +272,63 @@ public class DoctorScheduleDaoImpl implements DoctorScheduleDao {
 	public Collection<DoctorScheduleDto> search(DoctorScheduleDto scheduleDto) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Collection<DoctorScheduleDto> getDoctorAll(Integer id) {
+		// Set response content type
+		Collection<DoctorScheduleDto> result = new ArrayList<>();
+		PreparedStatement pstm = null;
+		Connection conn = null;
+
+		try {
+			// Open a connection
+			conn = DbConnection.getConnection();
+			// Execute SQL query
+			String sql;
+			sql = "SELECT idds, doctor.idd, doctor.dname, doctor.dsurname, dtime_start, dtime_end FROM doctor_schedule JOIN "
+					+ "doctor USING(idd) WHERE idd = ?";
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, id);
+			System.out.println(sql);
+			ResultSet rs = pstm.executeQuery();
+			// Extract data from result set
+			while (rs.next()) {
+				DoctorScheduleDto schedule = new DoctorScheduleDto();
+				// Retrieve by column name
+				schedule.setId(rs.getInt("idds"));
+				schedule.setStart(rs.getString("dtime_start"));
+				schedule.setEnd(rs.getString("dtime_end"));
+				schedule.getDoctor().setId(rs.getInt("doctor.idd"));
+				schedule.getDoctor().setName(rs.getString("doctor.dname"));
+				schedule.getDoctor().setSurname(rs.getString("doctor.dsurname"));
+				result.add(schedule);
+			}
+			// Clean-up environment
+			rs.close();
+			pstm.close();
+			DbConnection.closeConnection(conn);
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (pstm != null)
+					pstm.close();
+			} catch (SQLException se2) {
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
+		return result;
 	}
 
 }

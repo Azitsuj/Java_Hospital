@@ -10,6 +10,8 @@ public interface DoctorScheduleDao {
 
 	Collection<DoctorScheduleDto> getAll();
 
+	Collection<DoctorScheduleDto> getDoctorAll(Integer id);
+
 	void delete(Integer id);
 
 	void update(DoctorScheduleDto schedule);

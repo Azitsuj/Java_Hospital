@@ -2,10 +2,12 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -19,24 +21,6 @@ public class VisitsDaoImpl implements VisitsDao {
 
 	String startDateString, endDateString;
 	DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
-	@Override
-	public VisitsDto get(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Collection<VisitsDto> getAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void delete(Integer id) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void createBlank(VisitsDto visit, int minutes, Date startDate, Date endDate) {
@@ -149,6 +133,86 @@ public class VisitsDaoImpl implements VisitsDao {
 			} // end finally try
 		} // end try
 
+	}
+
+	@Override
+	public Collection<VisitsDto> getPatientsVisit() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(Integer id, Date startDate, Date endDate) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Collection<VisitsDto> getDoctorVisit(Integer id) {
+		// Set response content type
+		Collection<VisitsDto> result = new ArrayList<>();
+		PreparedStatement pstm = null;
+		Connection conn = null;
+
+		try {
+			// Open a connection
+			conn = DbConnection.getConnection();
+			// Execute SQL query
+			String sql;
+			sql = "SELECT idv, idd, doctor.dname, doctor.dsurname, doctor.specialization, idp, patient.pname, patient.psurname, "
+					+ "vtime_start, vtime_end FROM visits JOIN " + "doctor USING(idd) LEFT JOIN patient USING(idp) WHERE idd = ?";
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, id);
+			ResultSet rs = pstm.executeQuery();
+			// Extract data from result set
+			while (rs.next()) {
+				VisitsDto visit = new VisitsDto();
+				// Retrieve by column name
+				visit.setId(rs.getInt("idv"));
+				visit.setVisit_start(rs.getString("vtime_start"));
+				visit.setVisit_end(rs.getString("vtime_end"));
+				visit.getDoctor().setId(rs.getInt("idd"));
+				visit.getDoctor().setName(rs.getString("dname"));
+				visit.getDoctor().setSurname(rs.getString("dsurname"));
+				visit.getDoctor().setSpec(rs.getString("specialization"));
+				visit.getPatient().setId(rs.getInt("idp"));
+				if (rs.getString("pname") == null) {
+					visit.getPatient().setName("\\wolny/");
+				} else {
+					visit.getPatient().setName(rs.getString("pname"));
+				}
+				if (rs.getString("psurname") == null) {
+					visit.getPatient().setSurname("\\termin/");
+				} else {
+					visit.getPatient().setSurname(rs.getString("psurname"));
+				}
+				result.add(visit);
+			}
+			// Clean-up environment
+			rs.close();
+			pstm.close();
+			DbConnection.closeConnection(conn);
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (pstm != null)
+					pstm.close();
+			} catch (SQLException se2) {
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
+		return result;
 	}
 
 }

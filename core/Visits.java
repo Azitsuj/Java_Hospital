@@ -3,24 +3,24 @@ package core;
 import java.util.Collection;
 import java.util.Iterator;
 
-import dao.DoctorDaoImpl;
-import dao.interf.DoctorDao;
-import dto.DoctorDto;
+import dao.VisitsDaoImpl;
+import dao.interf.VisitsDao;
+import dto.VisitsDto;
 import tables.Tables;
 
 public class Visits {
-	/* TO DO
-	public void getVisits() {
-		DoctorDao doctorDao = new DoctorDaoImpl();
-		Collection<DoctorDto> doctorDtoCol = doctorDao.getAll();
-		Tables.printDoctorHeader();
-		for (Iterator<DoctorDto> iterator = doctorDtoCol.iterator(); iterator.hasNext();) {
-			DoctorDto doctorDto = (DoctorDto) iterator.next();
-			Tables.printDoctorTable(doctorDto);
+	
+	public void getDoctorVisits(Integer id) {
+		VisitsDao visitsDao = new VisitsDaoImpl();
+		Collection<VisitsDto> visitsDtoCol = visitsDao.getDoctorVisit(id);
+		Tables.printVisitsHeader();
+		for (Iterator<VisitsDto> iterator = visitsDtoCol.iterator(); iterator.hasNext();) {
+			VisitsDto visitsDto = (VisitsDto) iterator.next();
+			Tables.printVisitsTable(visitsDto);
 		}
-		Tables.printDoctorFooter();
+		Tables.printVisitsFooter();
 	}
-
+	/*
 	public void createDoctor(DoctorDto doctorDto) {
 		DoctorDao doctorDao = new DoctorDaoImpl();
 		doctorDao.create(doctorDto);

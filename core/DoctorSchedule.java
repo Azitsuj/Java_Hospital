@@ -52,4 +52,14 @@ public class DoctorSchedule {
 		visitDao.updateBlank(visitDto, minutes, startDateOld, endDateOld, startDate, endDate);
 	}
 	
+	public void getSelectedScheduls(Integer id) {
+		DoctorScheduleDao doctorScheduleDao = new DoctorScheduleDaoImpl();
+		Collection<DoctorScheduleDto> doctorScheduleDtoCol = doctorScheduleDao.getDoctorAll(id);
+		Tables.printScheduleHeader();
+		for (Iterator<DoctorScheduleDto> iterator = doctorScheduleDtoCol.iterator(); iterator.hasNext();) {
+			DoctorScheduleDto doctorScheduleDto = (DoctorScheduleDto) iterator.next();
+			Tables.printDoctorScheduleTable(doctorScheduleDto);
+		}
+		Tables.printDoctorScheduleFooter();
+	}
 }

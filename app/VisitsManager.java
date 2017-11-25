@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import core.Doctor;
 import core.DoctorSchedule;
 import core.Patient;
+import core.Visits;
 import dto.DoctorDto;
 import dto.DoctorScheduleDto;
 import dto.PatientDto;
@@ -37,10 +38,13 @@ public class VisitsManager {
 			Patient patient = new Patient();
 			Doctor doctor = new Doctor();
 			DoctorSchedule schedule = new DoctorSchedule();
+			Visits visit = new Visits();
 			String id, idd, name, surname, spec, start, end;
 			switch (choice.toLowerCase()) {
 			// Menu pacjentów
+
 			case "1":
+
 				while (flag) {
 					System.out.println(
 							"Wybierz opcjê: L - lista pacjentów, N - dodawanie nowego pacjenta, E - edycja pacjenta, D - usuwanie pacjenta, B - powrót do poprzedniego menu, Q - wyjœcie");
@@ -107,6 +111,7 @@ public class VisitsManager {
 				break;
 
 			case "2":
+
 				while (flag) {
 					System.out.println(
 							"Wybierz opcjê: L - lista lekarzy, N - dodawanie nowego lekarza, E - edycja lekarza, D - usuwanie lekarza, B - powrót do poprzedniego menu, Q - wyjœcie");
@@ -388,7 +393,33 @@ public class VisitsManager {
 				flag = true;
 				break;
 
+			case "4":
+
+				while (flag) {
+					System.out.println("Wybierz opcjê: L - lista dy¿urów wybranego lekarza, T - lista terminów wizyt wybranego lekarza, "
+							+ "N - umawianie wizyt, E - edycja wizyt, D - usuwanie wizyt, "
+							+ "B - powrót do poprzedniego menu, Q - wyjœcie");
+					choice = sc.nextLine();
+					switch (choice.toLowerCase()) {
+					// lista wszystkich dy¿urów danego lekarza
+					case "l":
+						System.out.println("Podaj id lekarza, którego dy¿ury chcesz zobaczyæ:");
+						id = sc.nextLine();
+						schedule.getSelectedScheduls(Integer.valueOf(id));
+						System.out.println("Powrót do poprzedniego menu");
+						break;
+						
+					case "t":
+						System.out.println("Podaj id lekarza, którego terminy wizyt chcesz zobaczyæ:");
+						id = sc.nextLine();
+						visit.getDoctorVisits(Integer.valueOf(id));
+						System.out.println("Powrót do poprzedniego menu");
+						break;
+					}
+				}
+
 			case "q":
+
 				System.out.println("Wyszed³eœ z programu...");
 				flag = false;
 				break;

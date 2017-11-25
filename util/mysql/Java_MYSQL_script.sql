@@ -42,16 +42,21 @@ create table doctor_schedule (
 );
  
  
- SELECT idds, doctor.idd, doctor.dname, doctor.dsurname, dday, dtime_start, dtime_end specialization FROM doctor_schedule 
- JOIN doctor USING(idd);
+ SELECT idds, doctor.idd, doctor.dname, doctor.dsurname, dtime_start, dtime_end specialization FROM doctor_schedule 
+ JOIN doctor USING(idd) where idd = 1;
  
  
  insert into visits (idd, idp, vday, vtime_start, vtime_end) values (1, null, '2017-11-02', '2017-11-02 10:00', '2017-11-02 11:00');
  select * from visits;
  select * from doctor_schedule;
+ select * from doctor;
  alter table doctor_schedule drop dday;
  delete from visits;
+ delete from doctor_schedule;
  SELECT idds, doctor.idd, doctor.dname, doctor.dsurname, dtime_start, dtime_end, doctor.specialization FROM 
  doctor_schedule JOIN doctor USING (idd) WHERE idds = 15;
  
  select * from visits where idd = 1 AND vtime_start >= '2017-11-05 11:20:00';
+ 
+ SELECT idv, idd, doctor.dname, doctor.dsurname, doctor.specialization, idp, patient.pname, 
+ patient.psurname, vtime_start, vtime_end FROM doctor JOIN doctor USING(idd) JOIN patient USING(idp) WHERE idd = 1;
