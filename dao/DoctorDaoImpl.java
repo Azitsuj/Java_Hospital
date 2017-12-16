@@ -142,7 +142,7 @@ public class DoctorDaoImpl implements DoctorDao {
 			pstm.setInt(1, id);
 
 			pstm.executeUpdate();
-			System.out.println("Usun¹³êœ lekarza o numerze id: " + id);
+			System.out.println("UsunÄ…Å‚eÅ› lekarza o numerze id: " + id);
 			// Clean-up environment
 			// rs.close();
 			pstm.close();
@@ -190,7 +190,7 @@ public class DoctorDaoImpl implements DoctorDao {
 			pstm.setInt(4, doctor.getId());
 
 			pstm.executeUpdate();
-			System.out.println("Dane lekarza po aktualizacji, id: " + doctor.getId() + ", imiê: " + doctor.getName() + ", nazwisko: " + doctor.getSurname()
+			System.out.println("Dane lekarza po aktualizacji, id: " + doctor.getId() + ", imiï¿½: " + doctor.getName() + ", nazwisko: " + doctor.getSurname()
 					+ ", specjalizacja: " + doctor.getSpec());
 			// Clean-up environment
 			pstm.close();
@@ -236,7 +236,7 @@ public class DoctorDaoImpl implements DoctorDao {
 			pstm.setString(2, doctor.getSurname());
 			pstm.setString(3, doctor.getSpec());
 			pstm.executeUpdate();
-			System.out.println("Utworzono nastêpuj¹cego lekarza, imiê: " + doctor.getName() + ", nazwisko: " + doctor.getSurname()
+			System.out.println("Utworzono nastÄ™pujÄ…cego lekarza, imiÄ™: " + doctor.getName() + ", nazwisko: " + doctor.getSurname()
 					+ ", specjalizacja: " + doctor.getSpec());
 			// Clean-up environment
 			pstm.close();

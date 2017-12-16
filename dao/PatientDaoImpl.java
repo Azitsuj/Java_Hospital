@@ -141,7 +141,7 @@ public class PatientDaoImpl implements PatientDao {
 			pstm.setInt(1, id);
 
 			pstm.executeUpdate();
-			System.out.println("Usun��� pacjenta o numerze id: " + id);
+			System.out.println("Usunąłeś pacjenta o numerze id: " + id);
 			// Clean-up environment
 			// rs.close();
 			pstm.close();
@@ -188,7 +188,7 @@ public class PatientDaoImpl implements PatientDao {
 			pstm.setInt(3, patient.getId());
 
 			pstm.executeUpdate();
-			System.out.println("Dane pacjenta po aktualizacji, id: " + patient.getId() + ", imi�: " + patient.getName() + ", nazwisko: " + patient.getSurname());
+			System.out.println("Dane pacjenta po aktualizacji, id: " + patient.getId() + ", imię: " + patient.getName() + ", nazwisko: " + patient.getSurname());
 			// Clean-up environment
 			pstm.close();
 			DbConnection.closeConnection(conn);

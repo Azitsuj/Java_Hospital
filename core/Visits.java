@@ -9,7 +9,7 @@ import dto.VisitsDto;
 import tables.Tables;
 
 public class Visits {
-	
+
 	public void getDoctorVisits(Integer id) {
 		VisitsDao visitsDao = new VisitsDaoImpl();
 		Collection<VisitsDto> visitsDtoCol = visitsDao.getDoctorVisit(id);
@@ -20,27 +20,15 @@ public class Visits {
 		}
 		Tables.printVisitsFooter();
 	}
-	
+
 	public void createVisit(VisitsDto visitsDto) {
 		VisitsDao visitsDao = new VisitsDaoImpl();
 		System.out.println(visitsDto.getVisit_start());
 		visitsDao.create(visitsDto);
 	}
-	
+
 	public void deleteVisit(Integer id) {
 		VisitsDao visitsDao = new VisitsDaoImpl();
 		visitsDao.delete(id);
 	}
-/*
-	public DoctorDto getDoctor(Integer id) {
-		DoctorDao doctorDao = new DoctorDaoImpl();
-		DoctorDto doctorGet = doctorDao.get(id);
-		return doctorGet;
-	}
-
-	public void editDoctor(DoctorDto doctor) {
-		DoctorDao doctorDao = new DoctorDaoImpl();
-		doctorDao.update(doctor);
-	}
-	*/
 }

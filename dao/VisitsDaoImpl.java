@@ -89,7 +89,6 @@ public class VisitsDaoImpl implements VisitsDao {
 			pstm.setInt(2, visit.getDoctor().getId());
 			pstm.setString(3, visit.getVisit_start());
 			pstm.setString(4, visit.getVisit_end());
-			System.out.println(pstm);
 			pstm.executeUpdate();
 			// Clean-up environment
 			// rs.close();
@@ -234,7 +233,7 @@ public class VisitsDaoImpl implements VisitsDao {
 			// Execute SQL query
 			String sql;
 			sql = "SELECT idv, idd, doctor.dname, doctor.dsurname, doctor.specialization, idp, patient.pname, patient.psurname, "
-					+ "vtime_start, vtime_end FROM visits JOIN " + "doctor USING(idd) LEFT JOIN patient USING(idp) WHERE idd = ?";
+					+ "vtime_start, vtime_end FROM visits JOIN " + "doctor USING(idd) LEFT JOIN patient USING(idp) WHERE idd = ? ORDER BY vtime_start";
 			pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, id);
 			ResultSet rs = pstm.executeQuery();

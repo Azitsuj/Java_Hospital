@@ -149,7 +149,7 @@ public class DoctorScheduleDaoImpl implements DoctorScheduleDao {
 			pstm.setInt(1, id);
 
 			pstm.executeUpdate();
-			System.out.println("Usun¹³êœ dy¿ur o numerze id: " + id);
+			System.out.println("UsunÄ…Å‚eÅ› dyÅ¼ur o numerze id: " + id);
 			// Clean-up environment
 			// rs.close();
 			pstm.close();
@@ -196,8 +196,8 @@ public class DoctorScheduleDaoImpl implements DoctorScheduleDao {
 			pstm.setInt(4, schedule.getId());
 
 			pstm.executeUpdate();
-			System.out.println("Dane dy¿uru po aktualizacji, id: " + schedule.getId() + ", imiê lekarza: " + schedule.getDoctor().getName()
-					+ ", nazwisko lekarza: " + schedule.getDoctor().getSurname() + ", pocz¹tek: " + schedule.getStart() + ", koniec: " + schedule.getEnd());
+			System.out.println("Dane dyÅ¼uru po aktualizacji, id: " + schedule.getId() + ", imiÄ™ lekarza: " + schedule.getDoctor().getName()
+					+ ", nazwisko lekarza: " + schedule.getDoctor().getSurname() + ", poczÄ…tek: " + schedule.getStart() + ", koniec: " + schedule.getEnd());
 			// Clean-up environment
 			pstm.close();
 			DbConnection.closeConnection(conn);
@@ -240,8 +240,8 @@ public class DoctorScheduleDaoImpl implements DoctorScheduleDao {
 			pstm.setString(3, schedule.getEnd());
 			pstm.executeUpdate();
 			System.out.println(
-					"Utworzono nastêpuj¹cy dy¿ur, imiê lekarza: " + schedule.getDoctor().getName() + ", nazwisko lekarza: " + schedule.getDoctor().getSurname()
-							+ ", specjalizacja: " + schedule.getDoctor().getSpec() + ", pocz¹tek: " + schedule.getStart() + ", koniec: " + schedule.getEnd());
+					"Utworzono nastÄ™pujÄ…cy dyÅ¼ur, imiÄ™ lekarza: " + schedule.getDoctor().getName() + ", nazwisko lekarza: " + schedule.getDoctor().getSurname()
+							+ ", specjalizacja: " + schedule.getDoctor().getSpec() + ", poczÄ…tek: " + schedule.getStart() + ", koniec: " + schedule.getEnd());
 			// Clean-up environment
 			pstm.close();
 			DbConnection.closeConnection(conn);

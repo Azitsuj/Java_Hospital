@@ -471,8 +471,6 @@ public class VisitsManager {
 						}
 						endDate = Tools.addMinutesToDate((int) duration, startDate);
 						endDateString = df.format(endDate);
-						System.out.println(startDateString);
-						System.out.println(endDateString);
 						VisitsDto visitNew = new VisitsDto();
 						visitNew.getDoctor().setId(Integer.valueOf(idd));
 						visitNew.getPatient().setId(Integer.valueOf(id));
