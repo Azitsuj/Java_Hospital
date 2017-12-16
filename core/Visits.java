@@ -20,17 +20,18 @@ public class Visits {
 		}
 		Tables.printVisitsFooter();
 	}
-	/*
-	public void createDoctor(DoctorDto doctorDto) {
-		DoctorDao doctorDao = new DoctorDaoImpl();
-		doctorDao.create(doctorDto);
+	
+	public void createVisit(VisitsDto visitsDto) {
+		VisitsDao visitsDao = new VisitsDaoImpl();
+		System.out.println(visitsDto.getVisit_start());
+		visitsDao.create(visitsDto);
 	}
-
-	public void deleteDoctor(Integer id) {
-		DoctorDao doctorDao = new DoctorDaoImpl();
-		doctorDao.delete(id);
+	
+	public void deleteVisit(Integer id) {
+		VisitsDao visitsDao = new VisitsDaoImpl();
+		visitsDao.delete(id);
 	}
-
+/*
 	public DoctorDto getDoctor(Integer id) {
 		DoctorDao doctorDao = new DoctorDaoImpl();
 		DoctorDto doctorGet = doctorDao.get(id);

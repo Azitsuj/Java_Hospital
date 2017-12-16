@@ -42,7 +42,7 @@ public class VisitsDaoImpl implements VisitsDao {
 				endDateString = df.format(Tools.addMinutesToDate(10, startDate));
 				visit.setVisit_end(endDateString);
 				pstm.setString(4, visit.getVisit_end());
-				// Dodanie 10 minut do daty pocz¹tkowej dla kolejnej wizyty:
+				// Dodanie 10 minut do daty poczï¿½tkowej dla kolejnej wizyty:
 				startDate = Tools.addMinutesToDate(10, df.parse(visit.getVisit_start()));
 				visit.setVisit_start(df.format(startDate));
 				pstm.executeUpdate();
@@ -75,7 +75,46 @@ public class VisitsDaoImpl implements VisitsDao {
 
 	@Override
 	public void create(VisitsDto visit) {
-		// TODO Auto-generated method stub
+		// Set response content type
+		PreparedStatement pstm = null;
+		Connection conn = null;
+
+		try {
+			// Open a connection
+			conn = DbConnection.getConnection();
+			// Execute SQL query
+			String sql = "UPDATE visits SET idp = ? WHERE idd = ? AND vtime_start >= ? AND vtime_end <= ?";
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, visit.getPatient().getId());
+			pstm.setInt(2, visit.getDoctor().getId());
+			pstm.setString(3, visit.getVisit_start());
+			pstm.setString(4, visit.getVisit_end());
+			System.out.println(pstm);
+			pstm.executeUpdate();
+			// Clean-up environment
+			// rs.close();
+			pstm.close();
+			DbConnection.closeConnection(conn);
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (pstm != null)
+					pstm.close();
+			} catch (SQLException se2) {
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
 
 	}
 
@@ -142,8 +181,43 @@ public class VisitsDaoImpl implements VisitsDao {
 	}
 
 	@Override
-	public void delete(Integer id, Date startDate, Date endDate) {
-		// TODO Auto-generated method stub
+	public void delete(Integer id) {
+		// Set response content type
+		PreparedStatement pstm = null;
+		Connection conn = null;
+
+		try {
+			// Open a connection
+			conn = DbConnection.getConnection();
+			// Execute SQL query
+			String sql = "UPDATE visits SET idp = null WHERE idv = ?";
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, id);
+			pstm.executeUpdate();
+			// Clean-up environment
+			// rs.close();
+			pstm.close();
+			DbConnection.closeConnection(conn);
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (pstm != null)
+					pstm.close();
+			} catch (SQLException se2) {
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
 
 	}
 

@@ -21,8 +21,8 @@ public class VisitsManager {
 
 	public static void main(String[] args) throws ParseException {
 
-		System.out.println("Witaj w rejestracji pacjentów");
-		boolean flag = true;
+		System.out.println("Witaj w rejestracji pacjentÃ³w");
+		boolean flag = true, innerFlag = true;
 		String choice;
 		Date startDate, endDate, startDateOld, endDateOld;
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -32,7 +32,7 @@ public class VisitsManager {
 		int minutes;
 
 		while (flag) {
-			System.out.println("Co chcesz zrobiæ: 1 - pacjenci, 2 - lekarze, 3 - dy¿ury lekarzy, 4 - wizyty, \'q\' - wyjœcie z programu");
+			System.out.println("Co chcesz zrobiÄ‡: 1 - pacjenci, 2 - lekarze, 3 - dyÅ¼ury lekarzy, 4 - wizyty, \'q\' - wyjÅ›cie z programu");
 			Scanner sc = Tools.scanner();
 			choice = sc.nextLine();
 			Patient patient = new Patient();
@@ -40,24 +40,26 @@ public class VisitsManager {
 			DoctorSchedule schedule = new DoctorSchedule();
 			Visits visit = new Visits();
 			String id, idd, name, surname, spec, start, end;
+			Integer duration;
+			innerFlag = true;
 			switch (choice.toLowerCase()) {
-			// Menu pacjentów
+			// Menu pacjentï¿½w
 
 			case "1":
 
-				while (flag) {
+				while (innerFlag) {
 					System.out.println(
-							"Wybierz opcjê: L - lista pacjentów, N - dodawanie nowego pacjenta, E - edycja pacjenta, D - usuwanie pacjenta, B - powrót do poprzedniego menu, Q - wyjœcie");
+							"Wybierz opcjÄ™: L - lista pacjentÃ³w, N - dodawanie nowego pacjenta, E - edycja pacjenta, D - usuwanie pacjenta, B - powrÃ³t do poprzedniego menu, Q - wyjÅ›cie");
 					choice = sc.nextLine();
 					switch (choice.toLowerCase()) {
-					// lista wszystkich pacjentów
+					// lista wszystkich pacjentï¿½w
 					case "l":
 						patient.getPatients();
-						System.out.println("Powrót do poprzedniego menu");
+						System.out.println("PowrÃ³t do poprzedniego menu");
 						break;
 					// nowy pacjent
 					case "n":
-						System.out.println("Podaj imiê nowego pacjenta:");
+						System.out.println("Podaj imiÄ™ nowego pacjenta:");
 						name = sc.nextLine();
 						System.out.println("Podaj nazwisko nowego pacjenta:");
 						surname = sc.nextLine();
@@ -65,23 +67,23 @@ public class VisitsManager {
 						patientDto.setName(name);
 						patientDto.setSurname(surname);
 						patient.createPatient(patientDto);
-						System.out.println("Powrót do poprzedniego menu");
+						System.out.println("PowrÃ³t do poprzedniego menu");
 						break;
 					// edycja wskazanego pacjenta
 					case "e":
 						System.out.println("Podaj id pacjenta do edycji:");
 						id = sc.nextLine();
 						PatientDto patientGet = patient.getPatient(Integer.valueOf(id));
-						System.out.println("Wybrany pacjent ma nastêpuj¹ce dane:");
-						System.out.println("Id: " + patientGet.getId() + ", imiê: " + patientGet.getName() + ", nazwisko: " + patientGet.getSurname());
-						System.out.println("Podaj nowe imiê (\'ENTER\' aby pomin¹æ):");
+						System.out.println("Wybrany pacjent ma nastÄ™pujÄ…ce dane:");
+						System.out.println("Id: " + patientGet.getId() + ", imiï¿½: " + patientGet.getName() + ", nazwisko: " + patientGet.getSurname());
+						System.out.println("Podaj nowe imiÄ™ (\'ENTER\' aby pominÄ…Ä‡):");
 						name = sc.nextLine();
 						if (name.length() == 0) {
 							name = patientGet.getName();
 						} else {
 							patientGet.setName(name);
 						}
-						System.out.println("Podaj nowe nazwisko (\'ENTER\' aby pomin¹æ):");
+						System.out.println("Podaj nowe nazwisko (\'ENTER\' aby pominÄ…Ä‡):");
 						surname = sc.nextLine();
 						if (surname.length() == 0) {
 							surname = patientGet.getSurname();
@@ -89,21 +91,21 @@ public class VisitsManager {
 							patientGet.setSurname(surname);
 						}
 						patient.editPatient(patientGet);
-						System.out.println("Powrót do poprzedniego menu");
+						System.out.println("PowrÃ³t do poprzedniego menu");
 						break;
 					// usuwanie wskazanego pacjenta
 					case "d":
-						System.out.println("Podaj id pacjenta do usuniêcia:");
+						System.out.println("Podaj id pacjenta do usuniÄ™cia:");
 						id = sc.nextLine();
 						patient.deletePatient(Integer.valueOf(id));
-						System.out.println("Powrót do poprzedniego menu");
+						System.out.println("PowrÃ³t do poprzedniego menu");
 						break;
 					case "b":
-						flag = false;
+						innerFlag = false;
 						break;
 					case "q":
-						// Zakoñczenie programu
-						System.out.println("Wyszed³eœ z programu...");
+						// ZakoÅ„czenie programu
+						System.out.println("WyszedÅ‚eÅ› z programu...");
 						System.exit(0);
 					}
 				}
@@ -112,54 +114,54 @@ public class VisitsManager {
 
 			case "2":
 
-				while (flag) {
+				while (innerFlag) {
 					System.out.println(
-							"Wybierz opcjê: L - lista lekarzy, N - dodawanie nowego lekarza, E - edycja lekarza, D - usuwanie lekarza, B - powrót do poprzedniego menu, Q - wyjœcie");
+							"Wybierz opcjÄ™: L - lista lekarzy, N - dodawanie nowego lekarza, E - edycja lekarza, D - usuwanie lekarza, B - powrÃ³t do poprzedniego menu, Q - wyjÅ›cie");
 					choice = sc.nextLine();
 					switch (choice.toLowerCase()) {
 					// lista wszystkich lekarzy
 					case "l":
 						doctor.getDoctors();
-						System.out.println("Powrót do poprzedniego menu");
+						System.out.println("PowrÃ³t do poprzedniego menu");
 						break;
 					// nowy lekarz
 					case "n":
-						System.out.println("Podaj imiê nowego lekarza:");
+						System.out.println("Podaj imiÄ™ nowego lekarza:");
 						name = sc.nextLine();
 						System.out.println("Podaj nazwisko nowego lekarza:");
 						surname = sc.nextLine();
-						System.out.println("Podaj specjalizacjê nowego lekarza:");
+						System.out.println("Podaj specjalizacjÄ™ nowego lekarza:");
 						spec = sc.nextLine();
 						DoctorDto doctorDto = new DoctorDto();
 						doctorDto.setName(name);
 						doctorDto.setSurname(surname);
 						doctorDto.setSpec(spec);
 						doctor.createDoctor(doctorDto);
-						System.out.println("Powrót do poprzedniego menu");
+						System.out.println("PowrÃ³t do poprzedniego menu");
 						break;
 					// edycja wskazanego lekarza
 					case "e":
 						System.out.println("Podaj id lekarza do edycji:");
 						id = sc.nextLine();
 						DoctorDto doctorGet = doctor.getDoctor(Integer.valueOf(id));
-						System.out.println("Wybrany lekarz ma nastêpuj¹ce dane:");
-						System.out.println("Id: " + doctorGet.getId() + ", imiê: " + doctorGet.getName() + ", nazwisko: " + doctorGet.getSurname()
+						System.out.println("Wybrany lekarz ma nastÄ™pujÄ…ce dane:");
+						System.out.println("Id: " + doctorGet.getId() + ", imiÄ™: " + doctorGet.getName() + ", nazwisko: " + doctorGet.getSurname()
 								+ ", specjalizacja: " + doctorGet.getSpec());
-						System.out.println("Podaj nowe imiê (\'ENTER\' aby pomin¹æ):");
+						System.out.println("Podaj nowe imiÄ™ (\'ENTER\' aby pominÄ…Ä‡):");
 						name = sc.nextLine();
 						if (name.length() == 0) {
 							name = doctorGet.getName();
 						} else {
 							doctorGet.setName(name);
 						}
-						System.out.println("Podaj nowe nazwisko (\'ENTER\' aby pomin¹æ):");
+						System.out.println("Podaj nowe nazwisko (\'ENTER\' aby pominÄ…Ä‡):");
 						surname = sc.nextLine();
 						if (surname.length() == 0) {
 							surname = doctorGet.getSurname();
 						} else {
 							doctorGet.setSurname(surname);
 						}
-						System.out.println("Podaj now¹ specjalizacjê (\'ENTER\' aby pomin¹æ):");
+						System.out.println("Podaj nowÄ… specjalizacjÄ™ (\'ENTER\' aby pominÄ…Ä‡):");
 						spec = sc.nextLine();
 						if (spec.length() == 0) {
 							spec = doctorGet.getSurname();
@@ -167,21 +169,21 @@ public class VisitsManager {
 							doctorGet.setSurname(spec);
 						}
 						doctor.editDoctor(doctorGet);
-						System.out.println("Powrót do poprzedniego menu");
+						System.out.println("PowrÃ³t do poprzedniego menu");
 						break;
 					// usuwanie wskazanego lekarza
 					case "d":
-						System.out.println("Podaj id lekarza do usuniêcia:");
+						System.out.println("Podaj id lekarza do usuniÄ™cia:");
 						id = sc.nextLine();
 						doctor.deleteDoctor(Integer.valueOf(id));
-						System.out.println("Powrót do poprzedniego menu");
+						System.out.println("PowrÃ³t do poprzedniego menu");
 						break;
 					case "b":
-						flag = false;
+						innerFlag = false;
 						break;
 					case "q":
-						// Zakoñczenie programu
-						System.out.println("Wyszed³eœ z programu...");
+						// Zakoï¿½czenie programu
+						System.out.println("WyszedÅ‚eÅ› z programu...");
 						System.exit(0);
 					}
 				}
@@ -190,68 +192,68 @@ public class VisitsManager {
 
 			case "3":
 
-				while (flag) {
-					System.out.println("Wybierz opcjê: L - lista dy¿urów, N - dodawanie nowego dy¿uru, E - edycja dy¿uru, D - usuwanie dy¿uru, "
-							+ "B - powrót do poprzedniego menu, Q - wyjœcie");
+				while (innerFlag) {
+					System.out.println("Wybierz opcjÄ™: L - lista dyÅ¼urÃ³w, N - dodawanie nowego dyÅ¼uru, E - edycja dyÅ¼uru, D - usuwanie dyÅ¼uru, "
+							+ "B - powrÃ³t do poprzedniego menu, Q - wyjÅ›cie");
 					choice = sc.nextLine();
 					switch (choice.toLowerCase()) {
-					// lista wszystkich dy¿urów
+					// lista wszystkich dyï¿½urï¿½w
 					case "l":
 						schedule.getScheduls();
-						System.out.println("Powrót do poprzedniego menu");
+						System.out.println("PowrÃ³t do poprzedniego menu");
 						break;
-					// nowy dy¿ur
+					// nowy dyï¿½ur
 					case "n":
-						System.out.println("Podaj istniej¹ce id lekarza:");
+						System.out.println("Podaj istniejÄ…ce id lekarza:");
 						id = sc.nextLine();
 						while (true) {
 							try {
 								while (true) {
-									System.out.println("Podaj datê i godzinê nowego dy¿uru [rrrr-mm-dd hh:mm]:");
+									System.out.println("Podaj datÄ™ i godzinÄ™ nowego dyÅ¼uru [rrrr-mm-dd hh:mm]:");
 									start = sc.nextLine();
 									if (start.charAt(start.length() - 1) == '0') {
 										startDate = df.parse(start);
 										if (!df.format(startDate).equals(start)) {
-											System.out.println("Poda³eœ z³¹ datê, spróbuj jeszcze raz");
+											System.out.println("PodaÅ‚eÅ› zÅ‚Ä… datÄ™, sprÃ³buj jeszcze raz");
 										} else {
 											startDateString = df.format(startDate);
 											break;
 										}
 									} else {
-										System.out.println("Poda³eœ z³¹ godzinê, minuty musz¹ byæ zaokr¹glone do pe³nych dziesi¹tek, spróbuj jeszcze raz");
+										System.out.println("PodaÅ‚eÅ› zÅ‚Ä… godzinÄ™, minuty muszÄ… byÄ‡ zaokrÄ…glone do peÅ‚nych dziesiÄ…tek, sprÃ³buj jeszcze raz");
 									}
 								}
 								break;
 							} catch (ParseException e) {
-								System.out.println("Poda³eœ z³¹ datê, spróbuj jeszcze raz");
+								System.out.println("PodaÅ‚eÅ› zÅ‚Ä… datÄ™, sprÃ³buj jeszcze raz");
 								// e.printStackTrace();
 							}
 						}
 						while (true) {
 							try {
 								while (true) {
-									System.out.println("Podaj datê i godzinê zakoñczenia dy¿uru [rrrr-mm-dd hh:mm]:");
+									System.out.println("Podaj datÄ™ i godzinÄ™ zakoÅ„czenia dyÅ¼uru [rrrr-mm-dd hh:mm]:");
 									end = sc.nextLine();
 									if (start.charAt(start.length() - 1) == '0') {
 										endDate = df.parse(end);
 										if (!df.format(endDate).equals(end)) {
-											System.out.println("Poda³eœ z³¹ datê, spróbuj jeszcze raz");
+											System.out.println("PodaÅ‚eÅ› zÅ‚Ä… datÄ™, sprÃ³buj jeszcze raz");
 										} else {
 											endDateString = df.format(endDate);
 											break;
 										}
 									} else {
-										System.out.println("Poda³eœ z³¹ godzinê, minuty musz¹ byæ zaokr¹glone do pe³nych dziesi¹tek, spróbuj jeszcze raz");
+										System.out.println("PodaÅ‚eÅ› zÅ‚Ä… godzinÄ™, minuty muszÄ… byÄ‡ zaokrÄ…glone do peÅ‚nych dziesiÄ…tek, sprÃ³buj jeszcze raz");
 									}
 								}
 								break;
 							} catch (ParseException e) {
-								System.out.println("Poda³eœ z³¹ datê, spróbuj jeszcze raz");
+								System.out.println("PodaÅ‚eÅ› zÅ‚Ä… datÄ™, sprÃ³buj jeszcze raz");
 								// e.printStackTrace();
 							}
 						}
-						// ró¿nica w minutach pomiêdzy pocz¹tkiem a koñcem
-						// dy¿uru - potrzebna aby utworzyæ odpowiednio wiele pól
+						// rï¿½nica w minutach pomiï¿½dzy poczï¿½tkiem a koï¿½cem
+						// dyï¿½uru - potrzebna aby utworzyï¿½ odpowiednio wiele pï¿½l
 						// dla umawiania wizyt
 						dateDiff = (endDate.getTime() - startDate.getTime());
 						minutes = (int) TimeUnit.MILLISECONDS.toMinutes(dateDiff);
@@ -271,22 +273,22 @@ public class VisitsManager {
 						visitTemp.getDoctor().setSurname(doctorTemp.getSurname());
 						visitTemp.getDoctor().setSpec(doctorTemp.getSpec());
 						schedule.createDoctorSchedule(doctorScheduleDto, visitTemp, minutes, startDate, endDate);
-						System.out.println("Powrót do poprzedniego menu");
+						System.out.println("PowrÃ³t do poprzedniego menu");
 						break;
-					// edycja wskazanego dy¿uru
+					// edycja wskazanego dyï¿½uru
 					case "e":
-						System.out.println("Podaj id dy¿uru do edycji:");
+						System.out.println("Podaj id dyÅ¼uru do edycji:");
 						id = sc.nextLine();
 						// DoctorDto doctorGet =
 						// doctor.getDoctor(Integer.valueOf(id));
 						DoctorScheduleDto scheduleGet = schedule.getDoctorSchedule(Integer.valueOf(id));
-						System.out.println("Dane wybranego dy¿uru:");
-						System.out.println("Id dy¿uru: " + scheduleGet.getId() + ", id lekarza: " + scheduleGet.getDoctor().getId() + ", imiê: "
+						System.out.println("Dane wybranego dyÅ¼uru:");
+						System.out.println("Id dyÅ¼uru: " + scheduleGet.getId() + ", id lekarza: " + scheduleGet.getDoctor().getId() + ", imiÄ™: "
 								+ scheduleGet.getDoctor().getName() + ", nazwisko: " + scheduleGet.getDoctor().getSurname() + ", specjalizacja: "
 								+ scheduleGet.getDoctor().getSpec() + ", start: " + scheduleGet.getStart() + ", koniec: " + scheduleGet.getEnd());
 						startDateOld = df.parse(scheduleGet.getStart());
 						endDateOld = df.parse(scheduleGet.getEnd());
-						System.out.println("Podaj nowe id lekarza (\'ENTER\' aby pomin¹æ):");
+						System.out.println("Podaj nowe id lekarza (\'ENTER\' aby pominÄ…Ä‡):");
 						idd = sc.nextLine();
 						if (idd.length() == 0) {
 							idd = String.valueOf(scheduleGet.getDoctor().getId());
@@ -296,7 +298,7 @@ public class VisitsManager {
 						while (true) {
 							try {
 								while (true) {
-									System.out.println("Podaj now¹ datê i godzinê dy¿uru [rrrr-mm-dd hh:mm] (\'ENTER\' aby pomin¹æ):");
+									System.out.println("Podaj nowa datÄ™ i godzinÄ™ dyÅ¼uru [rrrr-mm-dd hh:mm] (\'ENTER\' aby pominÄ…Ä‡):");
 									start = sc.nextLine();
 									if (start.length() == 0) {
 										startDate = df.parse(scheduleGet.getStart());
@@ -306,26 +308,26 @@ public class VisitsManager {
 										if (start.charAt(start.length() - 1) == '0') {
 											startDate = df.parse(start);
 											if (!df.format(startDate).equals(start)) {
-												System.out.println("Poda³eœ z³¹ datê, spróbuj jeszcze raz");
+												System.out.println("PodaÅ‚eÅ› zÅ‚Ä… datÄ™, sprÃ³buj jeszcze raz");
 											} else {
 												startDateString = df.format(startDate);
 												break;
 											}
 										} else {
-											System.out.println("Poda³eœ z³¹ godzinê, minuty musz¹ byæ zaokr¹glone do pe³nych dziesi¹tek, spróbuj jeszcze raz");
+											System.out.println("PodaÅ‚eÅ› zÅ‚Ä… godzinÄ™, minuty muszÄ… byÄ‡ zaokrÄ…glone do peÅ‚nych dziesiÄ…tek, sprÃ³buj jeszcze raz");
 										}
 									}
 								}
 								break;
 							} catch (ParseException e) {
-								System.out.println("Poda³eœ z³¹ datê, spróbuj jeszcze raz");
+								System.out.println("PodaÅ‚eÅ› zÅ‚Ä… datÄ™, sprÃ³buj jeszcze raz");
 								// e.printStackTrace();
 							}
 						}
 						while (true) {
 							try {
 								while (true) {
-									System.out.println("Podaj now¹ datê i godzinê zakoñczenia dy¿uru [rrrr-mm-dd hh:mm] (\'ENTER\' aby pomin¹æ):");
+									System.out.println("Podaj nowÄ… datÄ™ i godzinÄ™ zakoÅ„czenia dyÅ¼uru [rrrr-mm-dd hh:mm] (\'ENTER\' aby pominÄ…Ä‡):");
 									end = sc.nextLine();
 									if (end.length() == 0) {
 										endDate = df.parse(scheduleGet.getEnd());
@@ -335,19 +337,19 @@ public class VisitsManager {
 										if (end.charAt(end.length() - 1) == '0') {
 											endDate = df.parse(end);
 											if (!df.format(endDate).equals(end)) {
-												System.out.println("Poda³eœ z³¹ datê, spróbuj jeszcze raz");
+												System.out.println("PodaÅ‚eÅ› zÅ‚Ä… datÄ™, sprÃ³buj jeszcze raz");
 											} else {
 												endDateString = df.format(endDate);
 												break;
 											}
 										} else {
-											System.out.println("Poda³eœ z³¹ godzinê, minuty musz¹ byæ zaokr¹glone do pe³nych dziesi¹tek, spróbuj jeszcze raz");
+											System.out.println("PodaÅ‚eÅ› zÅ‚Ä… godzinÄ™, minuty musza byÄ‡ zaokraglone do peÅ‚nych dziesiÄ…tek, sprÃ³buj jeszcze raz");
 										}
 									}
 								}
 								break;
 							} catch (ParseException e) {
-								System.out.println("Poda³eœ z³¹ datê, spróbuj jeszcze raz");
+								System.out.println("PodaÅ‚eÅ› zÅ‚Ä… datÄ™, sprÃ³buj jeszcze raz");
 								// e.printStackTrace();
 							}
 						}
@@ -368,25 +370,25 @@ public class VisitsManager {
 						visitTemp.getDoctor().setSurname(doctorTemp.getSurname());
 						visitTemp.getDoctor().setSpec(doctorTemp.getSpec());
 						schedule.editDoctorSchedule(scheduleGet, visitTemp, minutes, startDateOld, endDateOld, startDate, endDate);
-						System.out.println("Powrót do poprzedniego menu");
+						System.out.println("PowrÃ³t do poprzedniego menu");
 						break;
-					// usuwanie wskazanego dy¿uru:
+					// usuwanie wskazanego dyï¿½uru:
 					case "d":
-						System.out.println("Podaj id dy¿uru do usuniêcia:");
+						System.out.println("Podaj id dyÅ¼uru do usuniÄ™cia:");
 						id = sc.nextLine();
 						scheduleGet = schedule.getDoctorSchedule(Integer.valueOf(id));
 						startDateOld = df.parse(scheduleGet.getStart());
 						endDateOld = df.parse(scheduleGet.getEnd());
 						Integer idDoctor = scheduleGet.getDoctor().getId();
 						schedule.deleteDoctorSchedule(Integer.valueOf(id), idDoctor, startDateOld, endDateOld);
-						System.out.println("Powrót do poprzedniego menu");
+						System.out.println("PowrÃ³t do poprzedniego menu");
 						break;
 					case "b":
-						flag = false;
+						innerFlag = false;
 						break;
 					case "q":
-						// Zakoñczenie programu
-						System.out.println("Wyszed³eœ z programu...");
+						// ZakoÅ„czenie programu
+						System.out.println("WyszedÅ‚eÅ› z programu...");
 						System.exit(0);
 					}
 				}
@@ -395,32 +397,114 @@ public class VisitsManager {
 
 			case "4":
 
-				while (flag) {
-					System.out.println("Wybierz opcjê: L - lista dy¿urów wybranego lekarza, T - lista terminów wizyt wybranego lekarza, "
-							+ "N - umawianie wizyt, E - edycja wizyt, D - usuwanie wizyt, "
-							+ "B - powrót do poprzedniego menu, Q - wyjœcie");
+				while (innerFlag) {
+					System.out.println("Wybierz opcjÄ™: L - lista dyÅ¼urÃ³w wybranego lekarza, T - lista terminÃ³w wizyt wybranego lekarza, "
+							+ "N - umawianie wizyt, D - usuwanie wizyt, " + "B - powrÃ³t do poprzedniego menu, Q - wyjÅ›cie");
 					choice = sc.nextLine();
 					switch (choice.toLowerCase()) {
-					// lista wszystkich dy¿urów danego lekarza
+					// lista wszystkich dyï¿½urï¿½w danego lekarza
 					case "l":
-						System.out.println("Podaj id lekarza, którego dy¿ury chcesz zobaczyæ:");
+						System.out.println("Podaj id lekarza, ktÃ³rego dyÅ¼ury chcesz zobaczyÄ‡:");
 						id = sc.nextLine();
 						schedule.getSelectedScheduls(Integer.valueOf(id));
-						System.out.println("Powrót do poprzedniego menu");
+						System.out.println("PowrÃ³t do poprzedniego menu");
 						break;
-						
+
 					case "t":
-						System.out.println("Podaj id lekarza, którego terminy wizyt chcesz zobaczyæ:");
+						System.out.println("Podaj id lekarza, ktÃ³rego terminy wizyt chcesz zobaczyÄ‡:");
 						id = sc.nextLine();
 						visit.getDoctorVisits(Integer.valueOf(id));
-						System.out.println("Powrót do poprzedniego menu");
+						System.out.println("PowrÃ³t do poprzedniego menu");
 						break;
+
+					case "n":
+						System.out.println("Podaj id pacjenta, ktÃ³rego chcesz umÃ³wiÄ‡:");
+						id = sc.nextLine();
+						System.out.println("Podaj id lekarza, do ktÃ³rego chcesz umÃ³wiÄ‡ wizytÄ™:");
+						idd = sc.nextLine();
+						while (true) {
+							startDate = new Date();
+							try {
+								while (true) {
+									System.out.println("Podaj datÄ™ i godzinÄ™ rozpoczÄ™cia wizyty [rrrr-mm-dd hh:mm]:");
+									start = sc.nextLine();
+									if (start.length() == 0) {
+										startDateString = df.format(start);
+										break;
+									} else {
+										if (start.charAt(start.length() - 1) == '0') {
+											startDate = df.parse(start);
+											if (!df.format(startDate).equals(start)) {
+												System.out.println("PodaÅ‚eÅ› zÅ‚Ä… datÄ™, sprÃ³buj jeszcze raz");
+											} else {
+												startDateString = df.format(startDate);
+												break;
+											}
+										} else {
+											System.out.println("PodaÅ‚eÅ› zÅ‚Ä… godzinÄ™, minuty muszÄ… byÄ‡ zaokrÄ…glone do peÅ‚nych dziesiÄ…tek, sprÃ³buj jeszcze raz");
+										}
+									}
+								}
+								System.out.println(startDateString);
+								break;
+							} catch (ParseException e) {
+								System.out.println("PodaÅ‚eÅ› zÅ‚Ä… datÄ™, sprÃ³buj jeszcze raz");
+								// e.printStackTrace();
+							}
+						}
+						while (true) {
+							System.out.println("Podaj czas trwania wizyty - 10 lub 20 minut:");
+							end = sc.nextLine();
+
+							try {
+								duration = Integer.valueOf(end);
+								if (duration % 10 != 0) {
+									throw new Exception();
+								}
+								if (duration % 10 > 1 || duration % 10 < 0) {
+									throw new Exception();
+								}
+								break;
+							} catch (Exception e) {
+								System.out.println("PodaÅ‚eÅ› zÅ‚Ä… dÅ‚ugoÅ›Ä‡ wizyty, sprÃ³buj jeszcze raz");
+							}
+						}
+						endDate = Tools.addMinutesToDate((int) duration, startDate);
+						endDateString = df.format(endDate);
+						System.out.println(startDateString);
+						System.out.println(endDateString);
+						VisitsDto visitNew = new VisitsDto();
+						visitNew.getDoctor().setId(Integer.valueOf(idd));
+						visitNew.getPatient().setId(Integer.valueOf(id));
+						visitNew.setVisit_start(startDateString);
+						visitNew.setVisit_end(endDateString);
+						visit.createVisit(visitNew);
+						System.out.println("Wizyta zostaÅ‚a utworzona, powrÃ³t do poprzedniego menu!");
+						break;
+						
+					case "d":
+						System.out.println("Podaj id wizyty, ktÃ³rÄ… chcesz usunÄ…Ä‡:");
+						id = sc.nextLine();
+						visit.deleteVisit(Integer.valueOf(id));
+						System.out.println("UsunÄ…Å‚eÅ› wizytÄ™, powrÃ³t do poprzedniego menu!");
+						break;
+						
+					case "b":
+						innerFlag = false;
+						break;
+
+					case "q":
+						// ZakoÅ„czenie programu
+						System.out.println("WyszedÅ‚eÅ› z programu...");
+						System.exit(0);
 					}
 				}
+				flag = true;
+				break;
 
 			case "q":
 
-				System.out.println("Wyszed³eœ z programu...");
+				System.out.println("WyszedÅ‚eÅ› z programu...");
 				flag = false;
 				break;
 			}

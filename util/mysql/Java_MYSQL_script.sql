@@ -59,4 +59,4 @@ create table doctor_schedule (
  select * from visits where idd = 1 AND vtime_start >= '2017-11-05 11:20:00';
  
  SELECT idv, idd, doctor.dname, doctor.dsurname, doctor.specialization, idp, patient.pname, 
- patient.psurname, vtime_start, vtime_end FROM doctor JOIN doctor USING(idd) JOIN patient USING(idp) WHERE idd = 1;
+ patient.psurname, vtime_start, vtime_end FROM visits JOIN doctor USING(idd) LEFT JOIN patient USING(idp) WHERE idd = 1;

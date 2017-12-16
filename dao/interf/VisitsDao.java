@@ -12,7 +12,7 @@ public interface VisitsDao {
 
 	Collection<VisitsDto> getDoctorVisit(Integer id);
 	
-	void delete(Integer id, Date startDate, Date endDate);
+	void delete(Integer id);
 	
 	void deleteSet(Integer id, Date startDateOld, Date endDateOld);
 

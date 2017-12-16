@@ -18,7 +18,7 @@ public class Tables {
 			System.out.print("-");
 		}
 		System.out.println();
-		String patientHeader = String.format("| %1$-5s | %2$-20s | %3$-20s |", "Id", "Imiê pacjenta", "Nazwisko pacjenta");
+		String patientHeader = String.format("| %1$-5s | %2$-20s | %3$-20s |", "Id", "ImiÄ™ pacjenta", "Nazwisko pacjenta");
 		System.out.println(patientHeader);
 		for (int i = 1; i <= 55; i++) {
 			System.out.print("-");
@@ -44,7 +44,7 @@ public class Tables {
 			System.out.print("-");
 		}
 		System.out.println();
-		String doctorHeader = String.format("| %1$-5s | %2$-20s | %3$-20s | %4$-21s |", "Id", "Imiê lekarza", "Nazwisko lekarza", "Specjalizacja lekarza");
+		String doctorHeader = String.format("| %1$-5s | %2$-20s | %3$-20s | %4$-21s |", "Id", "ImiÄ™ lekarza", "Nazwisko lekarza", "Specjalizacja lekarza");
 		System.out.println(doctorHeader);
 		for (int i = 1; i <= 79; i++) {
 			System.out.print("-");
@@ -71,7 +71,7 @@ public class Tables {
 			System.out.print("-");
 		}
 		System.out.println();
-		String scheduleHeader = String.format("| %1$-5s | %2$-20s | %3$-20s | %4$-16s | %5$-16s |", "Id", "Imiê lekarza", "Nazwisko lekarza", "Start", "End");
+		String scheduleHeader = String.format("| %1$-5s | %2$-20s | %3$-20s | %4$-16s | %5$-16s |", "Id", "ImiÄ™ lekarza", "Nazwisko lekarza", "Start", "End");
 		System.out.println(scheduleHeader);
 		for (int i = 1; i <= 93; i++) {
 			System.out.print("-");
@@ -110,7 +110,7 @@ public class Tables {
 		}
 		System.out.println();
 		String doctorHeader = String.format("| %1$-5s | %2$-5s | %3$-12s | %4$-20s | %5$-15s | %6$-5s | %7$-13s | %8$-20s | %9$-16s | %10$-16s |", "Id w",
-				"Id d", "Imiê lekarza", "Nazwisko lekarza", "Specjalizacja", "Id p", "Imiê pacjenta", "Nazwisko pacjenta", "Pocz¹tek wizyty", "Koniec wizyty");
+				"Id d", "ImiÄ™ lekarza", "Nazwisko lekarza", "Specjalizacja", "Id p", "ImiÄ™ pacjenta", "Nazwisko pacjenta", "PoczÄ…tek wizyty", "Koniec wizyty");
 		System.out.println(doctorHeader);
 		for (int i = 1; i <= 158; i++) {
 			System.out.print("-");
